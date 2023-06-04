@@ -1,4 +1,4 @@
->Initial dependencies
+###Initial dependencies
 Spring web
 Lombook
 devTools
