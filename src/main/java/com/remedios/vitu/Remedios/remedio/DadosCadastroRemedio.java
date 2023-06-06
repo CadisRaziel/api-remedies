@@ -6,7 +6,7 @@ public record DadosCadastroRemedio(
         String nome,
         Via via,
         String lote,
-        int quantidade,
+        String quantidade,
         String validade,
         Laboratorio laboratorio) {
 

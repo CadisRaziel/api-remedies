@@ -22,7 +22,7 @@ public class EntidadeRemedio {
     @Enumerated(EnumType.STRING)// -> para salvar o enum como string (e ser mapeado pelo jpa)
     private Via via;
     private String lote;
-    private int quantidade;
+    private String quantidade;
     private String validade;
 
     @Enumerated(EnumType.STRING)// -> para salvar o enum como string (e ser mapeado pelo jpa)

@@ -36,7 +36,7 @@ public class RemedioController {
 }
     */
 
-
+    /*
     //agora vamos criar uma entidade e um dto
     @PostMapping
     public void cadastrarTest02(@RequestBody DadosCadastroRemedio dados) {
@@ -48,12 +48,13 @@ public class RemedioController {
         //Caso eu nao envie algum dado la no json, ele nao vai dar erro, ele vai vir como 'NULL'
         System.out.println(dados);
     }
-
+*/
     //==============================================================================================================\\
 
     @Autowired // -> injeção de dependencia do spring booot
     private RemedioRepository remedioRepository;
 
+    @PostMapping
     public void cadastrar(@RequestBody DadosCadastroRemedio dados){
         remedioRepository.save(new EntidadeRemedio(dados));
     }
