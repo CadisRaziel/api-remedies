@@ -2,6 +2,9 @@ package com.remedios.vitu.Remedios.controllers;
 
 
 import com.remedios.vitu.Remedios.remedio.DadosCadastroRemedio;
+import com.remedios.vitu.Remedios.remedio.EntidadeRemedio;
+import com.remedios.vitu.Remedios.remedio.RemedioRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,7 +16,7 @@ public class RemedioController {
 
     /*
     @PostMapping
-    public void cadastrar(@RequestBody String json){
+    public void cadastrarTest01(@RequestBody String json){
         //eu coloquei um body na requisição do get la no insomnia
         //ao fazer essa função eu tento recuperar os dados que tem la aqui no terminal
         //para isso usamos o requestBody
@@ -36,7 +39,7 @@ public class RemedioController {
 
     //agora vamos criar uma entidade e um dto
     @PostMapping
-    public void cadastrar(@RequestBody DadosCadastroRemedio dados) {
+    public void cadastrarTest02(@RequestBody DadosCadastroRemedio dados) {
         //eu coloquei um body na requisição do get la no insomnia
         //ao fazer essa função eu tento recuperar os dados que tem la aqui no terminal
         //para isso usamos o requestBody
@@ -44,6 +47,15 @@ public class RemedioController {
         //Repare que na classe report DadosCadastroRemedio eu tenho 'enum' ou seja eu preciso passar em letra MAIUSCULA la no body do insomina
         //Caso eu nao envie algum dado la no json, ele nao vai dar erro, ele vai vir como 'NULL'
         System.out.println(dados);
+    }
+
+    //==============================================================================================================\\
+
+    @Autowired // -> injeção de dependencia do spring booot
+    private RemedioRepository remedioRepository;
+
+    public void cadastrar(@RequestBody DadosCadastroRemedio dados){
+        remedioRepository.save(new EntidadeRemedio(dados));
     }
 
 }
