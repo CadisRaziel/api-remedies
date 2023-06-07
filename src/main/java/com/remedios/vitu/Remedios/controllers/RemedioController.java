@@ -4,6 +4,7 @@ package com.remedios.vitu.Remedios.controllers;
 import com.remedios.vitu.Remedios.remedio.DadosCadastroRemedio;
 import com.remedios.vitu.Remedios.remedio.EntidadeRemedio;
 import com.remedios.vitu.Remedios.remedio.RemedioRepository;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -55,7 +56,8 @@ public class RemedioController {
     private RemedioRepository remedioRepository;
 
     @PostMapping
-    public void cadastrar(@RequestBody DadosCadastroRemedio dados){
+    //Valid -> para validar as validation do DTO
+    public void cadastrar(@RequestBody @Valid DadosCadastroRemedio dados){
         remedioRepository.save(new EntidadeRemedio(dados));
     }
 

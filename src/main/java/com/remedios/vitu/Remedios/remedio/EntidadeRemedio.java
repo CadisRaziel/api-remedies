@@ -4,6 +4,8 @@ package com.remedios.vitu.Remedios.remedio;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDate;
+
 @Entity(name = "Remedio")// -> posso nomear a entidade (vai se representada na tabela com o nome "Remedio"
 @Table(name = "tb_remedio")
 @Getter //-> biblioteca do lombok para gerar automatico sem eu precisar fazer ali em baixo
@@ -22,8 +24,8 @@ public class EntidadeRemedio {
     @Enumerated(EnumType.STRING)// -> para salvar o enum como string (e ser mapeado pelo jpa)
     private Via via;
     private String lote;
-    private String quantidade;
-    private String validade;
+    private int quantidade;
+    private LocalDate validade;
 
     @Enumerated(EnumType.STRING)// -> para salvar o enum como string (e ser mapeado pelo jpa)
     private Laboratorio laboratorio;
