@@ -2,14 +2,15 @@ package com.remedios.vitu.Remedios.controllers;
 
 
 import com.remedios.vitu.Remedios.remedio.DadosCadastroRemedio;
+import com.remedios.vitu.Remedios.remedio.DadosListagemRemedio;
 import com.remedios.vitu.Remedios.remedio.EntidadeRemedio;
 import com.remedios.vitu.Remedios.remedio.RemedioRepository;
+import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/remedios")
@@ -56,9 +57,22 @@ public class RemedioController {
     private RemedioRepository remedioRepository;
 
     @PostMapping
+    @Transactional //-> quando nossa requisição der problema o transactional vai fazer um rollback, vai fazer com que a requisição seja repetida se houver algum problema
     //Valid -> para validar as validation do DTO
+    //void -> não vai ter resposta (nao retorna nada)
     public void cadastrar(@RequestBody @Valid DadosCadastroRemedio dados){
         remedioRepository.save(new EntidadeRemedio(dados));
+    }
+
+    @GetMapping
+    //List<DadosListagemRemedio> -> vai ter uma resposta de lista de objeto (vai retornar uma lista de objeto)
+    public List<DadosListagemRemedio> listar(){
+        //meu retorno é uma lista de objeto DTO DadosListagemRemedio
+        //porém o findAll está esperando uma lista de EntidadeRemedio
+        //com isso precisamos converter a lista de DadosListagemRemedio para EntidadeRemedio
+        //aqui usaremos stream e map para realizar essa conversão
+        //::new -> para chamar o construtor da classe DadosListagemRemedio
+        return remedioRepository.findAll().stream().map(DadosListagemRemedio::new).toList();
     }
 
 }
