@@ -1,10 +1,7 @@
 package com.remedios.vitu.Remedios.controllers;
 
 
-import com.remedios.vitu.Remedios.remedio.DadosCadastroRemedio;
-import com.remedios.vitu.Remedios.remedio.DadosListagemRemedio;
-import com.remedios.vitu.Remedios.remedio.EntidadeRemedio;
-import com.remedios.vitu.Remedios.remedio.RemedioRepository;
+import com.remedios.vitu.Remedios.remedio.*;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -73,6 +70,19 @@ public class RemedioController {
         //aqui usaremos stream e map para realizar essa conversão
         //::new -> para chamar o construtor da classe DadosListagemRemedio
         return remedioRepository.findAll().stream().map(DadosListagemRemedio::new).toList();
+    }
+
+
+
+    @PutMapping
+    @Transactional
+    public void atualizarRegistroDoBanco(@RequestBody @Valid DadosAtualizarRemedio dados){
+        //aqui eu preciso pegar o id do remedio que eu quero atualizar
+        //getReferenceById -> pega a referencia do remedio pelo id
+        var remedio = remedioRepository.getReferenceById(dados.id());
+
+        //atualizarInformacoes é um metodo que eu posso fazer dentro da propria entidade para atualizar o dado
+        remedio.atualizarInformacoes(dados);
     }
 
 }

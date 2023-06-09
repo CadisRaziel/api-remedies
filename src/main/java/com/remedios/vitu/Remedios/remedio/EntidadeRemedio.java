@@ -2,6 +2,7 @@ package com.remedios.vitu.Remedios.remedio;
 
 
 import jakarta.persistence.*;
+import jakarta.validation.Valid;
 import lombok.*;
 
 import java.time.LocalDate;
@@ -30,7 +31,6 @@ public class EntidadeRemedio {
     @Enumerated(EnumType.STRING)// -> para salvar o enum como string (e ser mapeado pelo jpa)
     private Laboratorio laboratorio;
 
-
     public EntidadeRemedio(DadosCadastroRemedio dados) {
         //utilizando um construtor para pegar o DTO
         //recebendo dados do DTO para transformar em entidade
@@ -41,4 +41,17 @@ public class EntidadeRemedio {
         this.validade = dados.validade();
         this.laboratorio = dados.laboratorio();
     }
+
+    public void atualizarInformacoes(@Valid DadosAtualizarRemedio dados) {
+        if (dados.nome() != null) {
+            this.nome = dados.nome();
+        }
+        if (dados.via() != null) {
+            this.via = dados.via();
+        }
+        if (dados.laboratorio() != null) {
+            this.laboratorio = dados.laboratorio();
+        }
+    }
+
 }
