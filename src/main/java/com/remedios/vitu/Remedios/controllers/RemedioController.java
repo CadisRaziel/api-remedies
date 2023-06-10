@@ -69,7 +69,18 @@ public class RemedioController {
         //com isso precisamos converter a lista de DadosListagemRemedio para EntidadeRemedio
         //aqui usaremos stream e map para realizar essa conversão
         //::new -> para chamar o construtor da classe DadosListagemRemedio
-        return remedioRepository.findAll().stream().map(DadosListagemRemedio::new).toList();
+        return remedioRepository.findAll().stream().map(DadosListagemRemedio::new).toList(); //-> Apresenta a lista de objetos
+    }
+
+    @GetMapping("/ativos")
+    //List<DadosListagemRemedio> -> vai ter uma resposta de lista de objeto (vai retornar uma lista de objeto)
+    public List<DadosListagemRemedio> listarAtivos(){
+        //meu retorno é uma lista de objeto DTO DadosListagemRemedio
+        //porém o findAll está esperando uma lista de EntidadeRemedio
+        //com isso precisamos converter a lista de DadosListagemRemedio para EntidadeRemedio
+        //aqui usaremos stream e map para realizar essa conversão
+        //::new -> para chamar o construtor da classe DadosListagemRemedio
+        return remedioRepository.findAllByAtivoTrue().stream().map(DadosListagemRemedio::new).toList(); //-> Apresenta a lista de objetos somente com os ativos
     }
 
 
@@ -93,5 +104,17 @@ public class RemedioController {
     public void excluirRemedio(@PathVariable Long id){
         remedioRepository.deleteById(id);
     }
+
+    //Criando o delete lógico (quando temos relações de tabelas se excluirmos tudo da problema)
+    //com isso criamos o delete lógico, que vai ser um boolean que vai ativar e desativar o atributo (dando a imrpessão de deletado)
+    @DeleteMapping("inativar/{id}")
+    @Transactional
+    public void inativarRemedio(@PathVariable Long id){
+        var remedio = remedioRepository.getReferenceById(id);
+        remedio.inativar();
+    }
+
+    //CRIAR METODO PARA ATIVAR
+    //usar putmapping
 
 }

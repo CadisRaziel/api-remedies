@@ -31,6 +31,8 @@ public class EntidadeRemedio {
     @Enumerated(EnumType.STRING)// -> para salvar o enum como string (e ser mapeado pelo jpa)
     private Laboratorio laboratorio;
 
+    private Boolean ativo;
+
     public EntidadeRemedio(DadosCadastroRemedio dados) {
         //utilizando um construtor para pegar o DTO
         //recebendo dados do DTO para transformar em entidade
@@ -40,6 +42,7 @@ public class EntidadeRemedio {
         this.quantidade = dados.quantidade();
         this.validade = dados.validade();
         this.laboratorio = dados.laboratorio();
+        this.ativo = true; //-> toda vez que criarmos um remedio ele será cadastrado como ativo !!
     }
 
     public void atualizarInformacoes(@Valid DadosAtualizarRemedio dados) {
@@ -54,4 +57,8 @@ public class EntidadeRemedio {
         }
     }
 
+    public void inativar() {
+        this.ativo = false;
+        //desativando o remedio da tabela (dando a sensação de excluido)
+    }
 }
