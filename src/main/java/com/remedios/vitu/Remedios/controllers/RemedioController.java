@@ -74,7 +74,7 @@ public class RemedioController {
 
 
 
-    @PutMapping
+    @PutMapping //-> Repare que não colocamos o ID aqui, porque nós vamos enviar o ID pelo body !!!
     @Transactional
     public void atualizarRegistroDoBanco(@RequestBody @Valid DadosAtualizarRemedio dados){
         //aqui eu preciso pegar o id do remedio que eu quero atualizar
@@ -83,6 +83,15 @@ public class RemedioController {
 
         //atualizarInformacoes é um metodo que eu posso fazer dentro da propria entidade para atualizar o dado
         remedio.atualizarInformacoes(dados);
+    }
+
+
+    @DeleteMapping("/{id}")
+    @Transactional
+    //PathVariable -> vai estar falando pro spring que o id do parametro da função é o mesmo id que está na url e que esta no DeleteMapping acima
+    //aqui será feita a exclusão total
+    public void excluirRemedio(@PathVariable Long id){
+        remedioRepository.deleteById(id);
     }
 
 }
