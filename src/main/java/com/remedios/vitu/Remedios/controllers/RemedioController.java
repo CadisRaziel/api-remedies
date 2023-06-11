@@ -149,6 +149,9 @@ public class RemedioController {
 
     @GetMapping("/{id}")
     public ResponseEntity<DadosDetalhamentoRemedio> pegarPeloId(@PathVariable Long id){
+        //a fim de evitar try catch podemos criar uma classe para tratar os erros
+        //criamos a handler(tratarErros) pois ai eu não preciso sair pondo try catch em tudo
+        //ela ja englobaliza todos os endpoint
         var remedio = remedioRepository.getReferenceById(id);
         return ResponseEntity.ok(new DadosDetalhamentoRemedio(remedio));
     }
