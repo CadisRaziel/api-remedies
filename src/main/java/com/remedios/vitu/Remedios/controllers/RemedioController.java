@@ -114,7 +114,12 @@ public class RemedioController {
         remedio.inativar();
     }
 
-    //CRIAR METODO PARA ATIVAR
-    //usar putmapping
+    //Metodo para ativar novamente o remedio
+    @PutMapping("ativar/{id}")
+    @Transactional
+    public void ativarRemedio(@PathVariable Long id){
+        var remedio = remedioRepository.getReferenceById(id);
+        remedio.ativar();
+    }
 
 }

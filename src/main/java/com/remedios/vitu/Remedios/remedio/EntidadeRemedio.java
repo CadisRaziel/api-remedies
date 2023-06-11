@@ -61,4 +61,9 @@ public class EntidadeRemedio {
         this.ativo = false;
         //desativando o remedio da tabela (dando a sensação de excluido)
     }
+
+    public void ativar() {
+        this.ativo = true;
+        //ativa o remedio da tabela (dando a sensação de reativado)
+    }
 }
