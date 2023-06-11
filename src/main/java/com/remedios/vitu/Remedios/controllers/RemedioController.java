@@ -147,4 +147,11 @@ public class RemedioController {
         return ResponseEntity.noContent().build();
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<DadosDetalhamentoRemedio> pegarPeloId(@PathVariable Long id){
+        var remedio = remedioRepository.getReferenceById(id);
+        return ResponseEntity.ok(new DadosDetalhamentoRemedio(remedio));
+    }
+
+
 }
