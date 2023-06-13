@@ -1,6 +1,8 @@
 package com.remedios.vitu.Remedios.controllers;
 
+import com.remedios.vitu.Remedios.service.TokenService;
 import com.remedios.vitu.Remedios.usuarios.DadosAutenticacao;
+import com.remedios.vitu.Remedios.usuarios.EntidadeUsuario;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +22,9 @@ public class AutenticacaoController {
 
     @Autowired
     private AuthenticationManager authenticationManager;
+
+    @Autowired
+    private TokenService tokenService;
     @PostMapping
     public ResponseEntity<?> efetuarLogin(@RequestBody @Valid DadosAutenticacao dadosAutenticacao){
          //o service é uma camada para que não precisamos por o conteudo dele dentro do controller
@@ -30,7 +35,9 @@ public class AutenticacaoController {
         var token = new UsernamePasswordAuthenticationToken(dadosAutenticacao.login(), dadosAutenticacao.senha());
         var autenticacao = authenticationManager.authenticate(token); //token -> objeto que será validado
 
-        return ResponseEntity.ok().build();
+        //getPrincipal -> pega o usuario logando no momento
+        //(EntidadeUsuario) -> cast feito pois o token retorna um objeto e o metodo abaixo quer apenas um usuario, fazendo o cast estamos falando pra ele que é um usuario e nao um objeto
+        return ResponseEntity.ok(tokenService.gerarToken((EntidadeUsuario) autenticacao.getPrincipal()));
     }
 
 }
