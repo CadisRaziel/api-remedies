@@ -10,7 +10,7 @@ import lombok.*;
 @AllArgsConstructor //-> biblioteca do lombok para gerar automatico sem eu precisar fazer ali em baixo
 @NoArgsConstructor //-> biblioteca do lombok para gerar automatico sem eu precisar fazer ali em baixo (construtor vazio)
 @EqualsAndHashCode(of = "id")
-public class Usuario {
+public class EntidadeUsuario {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)// -> auto incremento (gera automaticamente o id)
