@@ -2,9 +2,13 @@ package com.remedios.vitu.Remedios.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
@@ -14,7 +18,7 @@ public class SecurityConfiguration {
     //Aplicação Web rest -> stateless (Não guarda sessão|estado|) (nao vamos precisar por login e senha !!!)
 
     //depois de criar essa classe ao irmos no insominia e fazer uma requisição ele ira deixar, pois nao precisa de login e senha agora
-    @Bean //para o spring reconhece que estamos retornando um objeto
+    @Bean //para o spring reconhecer e injetar o objeto ou que estamos retornando um objeto
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         //csrf().disable() -> desabilitando o ataque csrf pois ele só funciona em aplicação web stateful, e a nossa não é
         //sessionManagement -> configuração que fala que estamos fazendo uma api web rest
@@ -28,5 +32,17 @@ public class SecurityConfiguration {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .build();
+    }
+
+    @Bean
+    public AuthenticationManager getAuthenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception{
+        //vai ser responsevel por instanciar e criar o objeto do AuthenticacaoController
+        return authenticationConfiguration.getAuthenticationManager();
+    }
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        //função para utilizar o Bcrypt e decodificar a senha que utiliza o bcrypt
+        return new BCryptPasswordEncoder();
     }
 }
