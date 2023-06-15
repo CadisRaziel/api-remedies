@@ -1,5 +1,6 @@
 package com.remedios.vitu.Remedios.controllers;
 
+import com.remedios.vitu.Remedios.security.DadosTokenJwt;
 import com.remedios.vitu.Remedios.service.TokenService;
 import com.remedios.vitu.Remedios.usuarios.DadosAutenticacao;
 import com.remedios.vitu.Remedios.usuarios.EntidadeUsuario;
@@ -37,7 +38,9 @@ public class AutenticacaoController {
 
         //getPrincipal -> pega o usuario logando no momento
         //(EntidadeUsuario) -> cast feito pois o token retorna um objeto e o metodo abaixo quer apenas um usuario, fazendo o cast estamos falando pra ele que é um usuario e nao um objeto
-        return ResponseEntity.ok(tokenService.gerarToken((EntidadeUsuario) autenticacao.getPrincipal()));
+        var tokenJWT = tokenService.gerarToken((EntidadeUsuario) autenticacao.getPrincipal());
+
+        return ResponseEntity.ok(new DadosTokenJwt(tokenJWT));
     }
 
 }

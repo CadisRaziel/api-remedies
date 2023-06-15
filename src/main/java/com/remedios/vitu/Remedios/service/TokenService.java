@@ -5,6 +5,7 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
 import com.remedios.vitu.Remedios.usuarios.EntidadeUsuario;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
@@ -16,11 +17,14 @@ import java.time.ZoneOffset;
 public class TokenService {
     //vamos usar essa classe la no authenticacaoController
 
+    @Value("${api.security.token.secret}") //atribuindo o secret a variavel de ambiente que esta no properties
+    private String secret;
+
     //geração do token
     public String gerarToken(EntidadeUsuario usuario){
         //vamos usar a biblioteca do jwt
         try {
-            var algorithm = Algorithm.HMAC256("123456");
+            var algorithm = Algorithm.HMAC256(secret);
             //só vai gerar o token abaixo se a senha do parametro a cima for correta
             return JWT.create()
                     .withIssuer("Remedios_api") // -> quem esta disponibilizando o token (podemos por o nome da nossa api)
