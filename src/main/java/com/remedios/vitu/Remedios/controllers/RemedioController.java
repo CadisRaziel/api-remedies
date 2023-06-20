@@ -84,6 +84,7 @@ public class RemedioController {
         //porém o findAll está esperando uma lista de EntidadeRemedio
         //com isso precisamos converter a lista de DadosListagemRemedio para EntidadeRemedio
         //aqui usaremos stream e map para realizar essa conversão
+
         //::new -> para chamar o construtor da classe DadosListagemRemedio
         var list = remedioRepository.findAll().stream().map(DadosListagemRemedio::new).toList(); //-> Apresenta a lista de objetos
         return ResponseEntity.ok(list); //ok -> 200
