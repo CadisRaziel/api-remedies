@@ -14,7 +14,28 @@ public class SecurityFilter extends OncePerRequestFilter {
     //OncePerRequestFilter -> é um filtro que vai ser executado uma vez a cada requisição (facilita na nossa criação de filtro)
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+
+        var tokenJWT = recuperarToken(request);
+        System.out.println(tokenJWT);
+
         filterChain.doFilter(request,response);
+    }
+
+    private String recuperarToken(HttpServletRequest request) {
+        var tokenHeader = request.getHeader("Authorization");
+        /*
+        //Jeito correto de implementar
+        if(tokenHeader == null || tokenHeader.isEmpty() || !tokenHeader.startsWith("Bearer ")){
+            throw new RuntimeException("Token inexistente ou mal formatado!");
+        }
+        return tokenHeader.substring(7,tokenHeader.length());
+         */
+
+        //Jeito rapido do video de implementar
+        if(tokenHeader == null){
+            throw new RuntimeException("Token não enviado!");
+        }
+        return tokenHeader;
     }
 
 }
