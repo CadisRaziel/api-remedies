@@ -37,6 +37,21 @@ public class TokenService {
         }
     }
 
+    //validação do token
+    public String getSubject(String token){
+        try {
+            var algorithm = Algorithm.HMAC256(secret);
+           return JWT.require(algorithm)
+                        .withIssuer("Remedios_api")
+                        .build()
+                        .verify(token)
+                        .getSubject();
+
+        } catch (JWTCreationException exception){
+            throw new RuntimeException("Token inválido ou expirado");
+        }
+    }
+
     private Instant dataExpiracao() {
         //plusHours -> o valor que queremos no token (no caso 2 horas), quando o token passar 2 horas ele expira
         //toInstant -> o horario do brasil que é -3
