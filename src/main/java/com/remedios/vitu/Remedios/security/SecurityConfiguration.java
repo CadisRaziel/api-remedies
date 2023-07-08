@@ -1,7 +1,9 @@
 package com.remedios.vitu.Remedios.security;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -10,12 +12,17 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity //-> diz pro spring que vamos mexer nas configurações de segurança
 public class SecurityConfiguration {
     //Aplicação web -> Statefull (que guarda sessão|estado|) (precisa por login e senha !! |LOGADO OU DESLOGADO|)
     //Aplicação Web rest -> stateless (Não guarda sessão|estado|) (nao vamos precisar por login e senha !!!)
+
+
+    @Autowired
+    private SecurityFilter securityFilter;
 
     //depois de criar essa classe ao irmos no insominia e fazer uma requisição ele ira deixar, pois nao precisa de login e senha agora
     @Bean //para o spring reconhecer e injetar o objeto ou que estamos retornando um objeto
@@ -31,6 +38,13 @@ public class SecurityConfiguration {
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
+                .authorizeHttpRequests()
+                .requestMatchers(HttpMethod.POST, "/login") //tipo de metodo que trabalha com url, e estamos dizendo que sera um http post(o login é um post) e o endereço o endpoint
+                .permitAll() //permitindo que todos os usuarios acessem o endpoint de login
+                .anyRequest() //qualquer outra requisição
+                .authenticated() //precisa estar autenticado
+                .and()
+                .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class) //primeiro colocamos o nosso filtro e depois o do spring
                 .build();
     }
 
